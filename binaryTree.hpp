@@ -57,7 +57,7 @@ public:
     void postOrder (BinaryTreeNode<T> * node);
     void levelOrderInsert(BinaryTreeNode<T> * node, const T element);
     
-    
+     
    
     
 };
@@ -122,7 +122,7 @@ void BinaryTree<T>::erase(BinaryTreeNode<T> * node){
         erase(node -> left);
         erase(node -> right);
         treeSize--;
-        std::cout<<node -> data << " " << treeSize << "\n";
+        //std::cout<<node -> data << " " << treeSize << "\n";
         delete node;
         
     }
