@@ -15,7 +15,7 @@
 
 int main(int argc, const char * argv[]) {
 
-    std::string str = " 1 2 3 4  5 6 6 6 6 6 5 ";
+    std::string str = " 1 2 3 4  5 6 6 6 6 6 5 1 1 3";
     Huffman huff;
     
     huff.compress(str);

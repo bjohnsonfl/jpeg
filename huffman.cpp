@@ -7,7 +7,9 @@
 //
 
 #include "huffman.hpp"
+#include <queue>
 #include <sstream>
+#include <vector>
 
 void Huffman::compress(std::string data, int bits)
 {
@@ -15,9 +17,10 @@ void Huffman::compress(std::string data, int bits)
     map count;
     rawData = data;
     std::string token = "";
-    int size = 0;    //number of total occurences of symbols
+    float size = 0.0;    //number of total occurences of symbols
     int numOfSymbols; //number of unique symbols
     bool done = false;
+    std::priority_queue<huffNode, std::vector<huffNode>, comparator> minHeap;
     std::istringstream str (rawData);
     
     //If the string is a binary, parse groups of bits into symbols and store into the obect's string
@@ -37,9 +40,21 @@ void Huffman::compress(std::string data, int bits)
     }
     numOfSymbols = count.size();
     
+    huffNode node;
+    
+    for(auto iter = count.begin(); iter != count.end(); iter++){
+        std::cout << iter -> first << " : " << iter -> second << "\n";
+        node.symbol = std::stoi(iter -> first);
+        node.prob = (iter -> second) / size;
+        
+        minHeap.push(node);
+    }
     
     
-    
+    while(minHeap.size()){
+        std::cout << minHeap.top().symbol << " " <<  minHeap.top().prob << "\n" ;
+        minHeap.pop();
+    }
     
     
 }

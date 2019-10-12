@@ -49,6 +49,16 @@ struct huffNode{
     }
     
 };
+
+//When creating the min heap, we use a priority queue with a comparison of each symbols probability
+class comparator{
+public:
+    bool operator() (const huffNode& lhs, const huffNode& rhs) const
+    {
+        return lhs.prob < rhs.prob;
+    }
+};
+
 /*
  take in a string.
  
