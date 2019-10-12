@@ -55,7 +55,7 @@ class comparator{
 public:
     bool operator() (const huffNode& lhs, const huffNode& rhs) const
     {
-        return lhs.prob < rhs.prob;
+        return lhs.prob > rhs.prob;
     }
 };
 
@@ -80,9 +80,9 @@ class Huffman{
     
 private:
     std::string rawData;
-    map dictionary;
-    
+    std::priority_queue<huffNode, std::vector<huffNode>, comparator> minHeap;
     BinaryTree<huffNode> huffmanTree;
+    map dictionary;
     
 public:
     Huffman(){};
@@ -93,7 +93,7 @@ public:
     
     
     void parseBits (int bits);  //if the string is binary, parse the number of desired bits to create symbols
-    
+    void createTree();
     
 };
 
