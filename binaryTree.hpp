@@ -10,6 +10,7 @@
 #define binaryTree_hpp
 
 #include <iostream>
+#include <memory>
 #include <queue>
 #include <stdio.h>
 
@@ -42,13 +43,15 @@ class BinaryTree {
 protected:
     int treeSize;
     BinaryTreeNode<T> * root;
+    //std::shared_ptr<BinaryTreeNode<T>> root;
     std::queue<BinaryTreeNode<T> *> levelQueue;
     
 public:
     BinaryTree(){root = NULL; treeSize = 0;};
     ~BinaryTree(){erase(root);};
+   
     void makeTree( const T element, BinaryTree<T> & left, BinaryTree<T> & right);
-    BinaryTreeNode<T> * getRoot() {return root;};
+    BinaryTreeNode<T> * getRoot() const {return root;};
     void erase(BinaryTreeNode<T> * node);
     void insert(const T element) {levelOrderInsert(root, element);};
     void levelOrder(BinaryTreeNode<T> * node);
@@ -79,7 +82,7 @@ void BinaryTree<T>::levelOrder(BinaryTreeNode<T> * node){
     if(node -> left != NULL) levelQueue.push(node -> left);
     if(node -> right != NULL) levelQueue.push(node -> right);
    
-    std::cout << node -> data << " ";
+    std::cout << (node -> data).prob << " ";
     
     if(levelQueue.size() > 0) {
         BinaryTreeNode<T> * nextNode = levelQueue.front();
@@ -134,6 +137,8 @@ void BinaryTree<T>::levelOrderInsert(BinaryTreeNode<T> * node, const T element){
     
     if(root == NULL){
         root = new BinaryTreeNode<T>(element);
+        //root = std::make_shared<BinaryTreeNode<T>>(element);
+        treeSize++;
         return;
     }
     std::queue<BinaryTreeNode<T> *> nodeQueue;

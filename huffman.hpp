@@ -16,6 +16,7 @@
 
 #include "binaryTree.hpp"
 
+
 typedef std::unordered_map<std::string,int> map;
 
 struct huffNode{
@@ -23,6 +24,7 @@ struct huffNode{
     int symbol;
     float prob;
     int code;
+    //BinaryTree<int> tree = BinaryTree<int>();
     
     huffNode(){
         symbol = 0;
@@ -53,9 +55,22 @@ struct huffNode{
 //When creating the min heap, we use a priority queue with a comparison of each symbols probability
 class comparator{
 public:
+    
     bool operator() (const huffNode& lhs, const huffNode& rhs) const
     {
         return lhs.prob > rhs.prob;
+    }
+    bool operator() ( BinaryTree<huffNode>& lhs,  BinaryTree<huffNode>& rhs) const
+    {
+       
+        return (lhs.getRoot())->data.prob > (rhs.getRoot())->data.prob;
+      
+    }
+    bool operator() ( BinaryTree<huffNode>* lhs,  BinaryTree<huffNode>* rhs) const
+    {
+        
+        return (lhs->getRoot())->data.prob > (rhs->getRoot())->data.prob;
+        
     }
 };
 
@@ -80,7 +95,8 @@ class Huffman{
     
 private:
     std::string rawData;
-    std::priority_queue<huffNode, std::vector<huffNode>, comparator> minHeap;
+    //std::priority_queue<huffNode, std::vector<huffNode>, comparator> minHeap;
+    std::priority_queue<BinaryTree<huffNode> *, std::vector<BinaryTree<huffNode>* > , comparator> minHeap;
     BinaryTree<huffNode> huffmanTree;
     map dictionary;
     
