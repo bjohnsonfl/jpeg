@@ -10,6 +10,7 @@
 #include <math.h>
 #include <queue>
 #include <sstream>
+#include <string>
 #include <vector>
 
 void Huffman::compress(std::string data, int bits)
@@ -60,7 +61,8 @@ void Huffman::compress(std::string data, int bits)
     
     //Now create a huffman tree using the values in the heap
     createTree();
-    
+    //traverse the tree to create the codes
+    generateCodes(huffmanTree.getRoot(), "");
     /*
     //Debuging
     while(minHeap.size()){
@@ -150,14 +152,43 @@ void Huffman::createTree(){
             huffmanTree.levelOrder(huffmanTree.getRoot());
             std::cout << "\n";
             postOrder(huffmanTree.getRoot());
+            std::cout << "\n";
             break;
         }
     }
 }
 
-void Huffman::generateCodes(){
-    
-    
+//The idea I am going for here is to do a pre order traversal of the huffman tree
+//Each time a node is entered, its code is updated
+//when traveling to Left child, multiply by 10 for a zero
+//when traveling to right child, multiply by 10 and add 1 for a 1
+bool Huffman::generateCodes(BinaryTreeNode<huffNode> * node, std::string code){
+   /* if(node != NULL){
+        node -> data.code = code;
+        int newCode = code * 10;
+        generateCodes(node -> left, newCode);
+        generateCodes(node -> right, newCode + 1);
+    }
+    */
+    if(node != NULL){
+        bool leaf = false;
+        
+        node -> data.code = code;
+        //std::string newCode = code;
+        
+        leaf = generateCodes(node -> left, code + "1");
+        leaf = generateCodes(node -> right, code + "0");
+        
+        if(leaf) {
+            dictionary[node -> data.symbol] = node -> data.code;
+            std::cout << node -> data.symbol << " " << node -> data.code << "\n";
+        }
+        return false;
+    }
+    else return true;
+}
+
+void Huffman::storeCodesInMap(){
     
     
     

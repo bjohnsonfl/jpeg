@@ -18,33 +18,34 @@
 
 
 typedef std::unordered_map<std::string,int> map;
+typedef std::unordered_map<int,std::string> codeMap;
 
 struct huffNode{
     
     int symbol;
     double prob;
-    int code;
+    std::string code;
     //BinaryTree<int> tree = BinaryTree<int>();
     
     huffNode(){
         symbol = 0;
         prob = 0.0;
-        code = 0;
+        code = "";
     }
     
     huffNode(int symbol){
         this->symbol = symbol;
         prob = 0.0;
-        code = 0;
+        code = "";
     }
     
     huffNode(int symbol, int prob){
         this -> symbol = symbol;
         this -> prob = prob;
-        code = 0;
+        code = "";
     }
     
-    huffNode(int symbol, float prob, int code){
+    huffNode(int symbol, float prob, std::string code){
         this -> symbol = symbol;
         this -> prob = prob;
         this -> code = code;
@@ -99,7 +100,7 @@ private:
     //std::priority_queue<huffNode, std::vector<huffNode>, comparator> minHeap;
     std::priority_queue<BinaryTree<huffNode> *, std::vector<BinaryTree<huffNode>* > , comparator> minHeap;
     BinaryTree<huffNode> huffmanTree;
-    map dictionary;
+    codeMap dictionary;
     
 public:
     Huffman(){numOfSymbols = 0;};
@@ -111,7 +112,8 @@ public:
     
     void parseBits (int bits);  //if the string is binary, parse the number of desired bits to create symbols
     void createTree();
-    void generateCodes();
+    bool generateCodes(BinaryTreeNode<huffNode> * node, std::string code);
+    void storeCodesInMap();
     void postOrder (BinaryTreeNode<huffNode> * node){
         if(node != NULL){
             postOrder(node -> left);

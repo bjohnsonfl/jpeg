@@ -25,6 +25,8 @@ int main(int argc, const char * argv[]) {
      2 0.3
      1 0.4
      */
+    
+          
     Huffman huff;
     
     huff.compress(str);
