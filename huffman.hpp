@@ -101,17 +101,19 @@ class Huffman{
 private:
     std::string rawData;
     std::string encodedData;
+    std::string uncodedData;
     int numOfSymbols;
     //std::priority_queue<huffNode, std::vector<huffNode>, comparator> minHeap;
     std::priority_queue<BinaryTree<huffNode> *, std::vector<BinaryTree<huffNode>* > , comparator> minHeap;
     BinaryTree<huffNode> huffmanTree;
     codeMap dictionary;
-    
+    map decodeDictionary;
     
 public:
     Huffman(){numOfSymbols = 0;
         rawData = "";
         encodedData = "";
+        uncodedData = "";
     };
     //wrapper function to start compression of input string
     //counts occurences and calculates probabilities of symbols

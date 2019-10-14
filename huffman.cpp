@@ -66,6 +66,9 @@ void Huffman::compress(std::string data, int bits)
     //Now encode the raw data
     encodeString();
     
+    //DEBUG decode the string now
+    decodeString(encodedData);
+    
     
     
     /*
@@ -186,6 +189,7 @@ bool Huffman::generateCodes(BinaryTreeNode<huffNode> * node, std::string code){
         
         if(leaf) {
             dictionary[node -> data.symbol] = node -> data.code;
+            decodeDictionary[node -> data.code] = node -> data.symbol;
             std::cout << node -> data.symbol << " " << node -> data.code << "\n";
         }
         return false;
@@ -215,6 +219,32 @@ void Huffman::encodeString(){
     
     encodedData = encoded.str();
     std::cout << "\n"<<encodedData << "\n";
+    
+}
+
+void Huffman::decodeString(std::string codedString){
+    
+    bool done = false;
+   
+    std::istringstream encoded (codedString);
+    std::ostringstream uncoded;
+    std::string token = "";
+    
+    while(!done){
+        encoded >> token;
+        if(token.size() == 0 ) done = true;
+        else{
+           
+            uncoded << decodeDictionary[token] << " ";
+            token.clear(); //clear so we can eventually set done
+        }
+    }
+    
+    
+    uncodedData = uncoded.str();
+    std::cout << "\n"<<uncodedData << "\n";
+    
+    
     
 }
 
