@@ -52,6 +52,7 @@ public:
    
     void makeTree( const T element, BinaryTree<T> & left, BinaryTree<T> & right);
     BinaryTreeNode<T> * getRoot() const {return root;};
+    int getTreeSize () const {return treeSize;};
     void erase(BinaryTreeNode<T> * node);
     void insert(const T element) {levelOrderInsert(root, element);};
     void levelOrder(BinaryTreeNode<T> * node);

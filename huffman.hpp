@@ -22,7 +22,7 @@ typedef std::unordered_map<std::string,int> map;
 struct huffNode{
     
     int symbol;
-    float prob;
+    double prob;
     int code;
     //BinaryTree<int> tree = BinaryTree<int>();
     
@@ -95,13 +95,14 @@ class Huffman{
     
 private:
     std::string rawData;
+    int numOfSymbols;
     //std::priority_queue<huffNode, std::vector<huffNode>, comparator> minHeap;
     std::priority_queue<BinaryTree<huffNode> *, std::vector<BinaryTree<huffNode>* > , comparator> minHeap;
     BinaryTree<huffNode> huffmanTree;
     map dictionary;
     
 public:
-    Huffman(){};
+    Huffman(){numOfSymbols = 0;};
     //wrapper function to start compression of input string
     //counts occurences and calculates probabilities of symbols
     void compress (std::string data) {compress(data, 0);};
@@ -110,7 +111,15 @@ public:
     
     void parseBits (int bits);  //if the string is binary, parse the number of desired bits to create symbols
     void createTree();
-    
+    void generateCodes();
+    void postOrder (BinaryTreeNode<huffNode> * node){
+        if(node != NULL){
+            postOrder(node -> left);
+            postOrder(node -> right);
+            std::cout << node -> data.prob << " ";
+            
+        }
+    }
 };
 
 #endif /* huffman_hpp */

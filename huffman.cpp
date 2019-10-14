@@ -7,6 +7,7 @@
 //
 
 #include "huffman.hpp"
+#include <math.h>
 #include <queue>
 #include <sstream>
 #include <vector>
@@ -18,7 +19,7 @@ void Huffman::compress(std::string data, int bits)
     rawData = data;
     std::string token = "";
     float size = 0.0;    //number of total occurences of symbols
-    int numOfSymbols; //number of unique symbols
+    //int numOfSymbols = 0; //number of unique symbols
     bool done = false;
     std::istringstream str (rawData);
     
@@ -44,8 +45,13 @@ void Huffman::compress(std::string data, int bits)
     //for every item in the hash table, create a huffNode and add it to a minHeap
     for(auto iter = count.begin(); iter != count.end(); iter++){
        // std::cout << iter -> first << " : " << iter -> second << "\n";
+        numOfSymbols++;
         node.symbol = std::stoi(iter -> first);
         node.prob = (iter -> second) / size;
+        
+        //important for placing of subtrees. ie 0.03999 vs 0.041111 should both be 0.04
+        node.prob = std::round(node.prob * 1000) / 1000;
+        
         BinaryTree<huffNode> *tree = new BinaryTree<huffNode>;
         tree -> insert(node);
         minHeap.push(tree);
@@ -81,7 +87,8 @@ void Huffman::createTree(){
     huffNode newNode;
     
     
-    while(minHeap.size()){
+    //while(minHeap.size()){
+    for(int i = 0; i < numOfSymbols -1; i++){
         // std::cout << huff.symbol << " " <<  huff.prob << "\n" ;
         //Grab the top two nodes from the min heap and pop them off. this is used to create the tree
        /*
@@ -110,21 +117,48 @@ void Huffman::createTree(){
         newNode.prob = (tree1 -> getRoot() -> data.prob) + (tree2 -> getRoot() -> data.prob);
         
         tree = new BinaryTree<huffNode>;
-        tree -> makeTree(newNode, *tree1, *tree2);
-        tree -> levelOrder(tree -> getRoot());
-        std::cout << "\n";
+        
+        if(tree1 -> getRoot() ->data.prob <= tree2 -> getRoot() ->data.prob){
+            
+            tree -> makeTree(newNode, *tree1, *tree2);
+            
+        }
+        else {
+            tree -> makeTree(newNode, *tree2, *tree1);
+        }
+        /*
+    
+        
+        else{
+            if(tree1 -> getTreeSize() <= tree2 -> getTreeSize())
+                tree -> makeTree(newNode, *tree1, *tree2);
+            else
+                tree -> makeTree(newNode, *tree2, *tree1);
+                
+        }
+       */
+            //debug
+            tree -> levelOrder(tree -> getRoot());
+            std::cout << "\n";
+        
         minHeap.push(tree);
         delete tree1;
         delete tree2;
-        if(newNode.prob == 1){
-            
+        //if(newNode.prob == 1){
+        if(i == numOfSymbols -2){
             huffmanTree = *tree;
             huffmanTree.levelOrder(huffmanTree.getRoot());
+            std::cout << "\n";
+            postOrder(huffmanTree.getRoot());
             break;
         }
-        
-        
     }
+}
+
+void Huffman::generateCodes(){
     
- 
+    
+    
+    
+    
 }
