@@ -90,22 +90,33 @@ public:
  
  create a map of symobols to codes
  
+ encode a string
+ 
+ decode a string
+ 
  */
 
 class Huffman{
     
 private:
     std::string rawData;
+    std::string encodedData;
     int numOfSymbols;
     //std::priority_queue<huffNode, std::vector<huffNode>, comparator> minHeap;
     std::priority_queue<BinaryTree<huffNode> *, std::vector<BinaryTree<huffNode>* > , comparator> minHeap;
     BinaryTree<huffNode> huffmanTree;
     codeMap dictionary;
     
+    
 public:
-    Huffman(){numOfSymbols = 0;};
+    Huffman(){numOfSymbols = 0;
+        rawData = "";
+        encodedData = "";
+    };
     //wrapper function to start compression of input string
     //counts occurences and calculates probabilities of symbols
+    
+    
     void compress (std::string data) {compress(data, 0);};
     void compress (std::string data, int bits);
     
@@ -113,7 +124,10 @@ public:
     void parseBits (int bits);  //if the string is binary, parse the number of desired bits to create symbols
     void createTree();
     bool generateCodes(BinaryTreeNode<huffNode> * node, std::string code);
-    void storeCodesInMap();
+    void encodeString();
+    
+    void decodeString (std::string codedString); //for debugging purposes. Would need a way to take in huffman codes for any random coded string
+    
     void postOrder (BinaryTreeNode<huffNode> * node){
         if(node != NULL){
             postOrder(node -> left);

@@ -63,6 +63,11 @@ void Huffman::compress(std::string data, int bits)
     createTree();
     //traverse the tree to create the codes
     generateCodes(huffmanTree.getRoot(), "");
+    //Now encode the raw data
+    encodeString();
+    
+    
+    
     /*
     //Debuging
     while(minHeap.size()){
@@ -188,8 +193,28 @@ bool Huffman::generateCodes(BinaryTreeNode<huffNode> * node, std::string code){
     else return true;
 }
 
-void Huffman::storeCodesInMap(){
+
+void Huffman::encodeString(){
+    
+    bool done = false;
+    int symbol = 0;
+    std::istringstream uncoded (rawData);
+    std::ostringstream encoded;
+    std::string token = "";
+    std::cout << rawData << "\n";
+    while(!done){
+        uncoded >> token;
+        if(token.size() == 0 ) done = true;
+        else{
+            symbol = std::stoi(token);
+            encoded << dictionary[symbol] << " ";
+            token.clear(); //clear so we can eventually set done
+        }
+    }
     
     
+    encodedData = encoded.str();
+    std::cout << "\n"<<encodedData << "\n";
     
 }
+
