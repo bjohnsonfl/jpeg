@@ -9,26 +9,19 @@
 #include <iostream>
 #include <string>
 
-#include "binaryTree.hpp"
-#include "huffman.hpp"
+#include "jpeg.hpp"
 
 
 int main(int argc, const char * argv[]) {
 
-   // std::string str = " 1 2 3 4  5 6 6 6 6 6 5 1 1 3";
-    std::string str = " 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 2 2 2 2 2 2 2 2 2 2  2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 3 3 3 3 3 3 3 3 3 3 4 4 4 4 4 4 4 4 4 4 6 6 6 6 6 6 5 5 5 5";
-    /*
-     5 0.04
-     6 0.06
-     3 0.1
-     4 0.1
-     2 0.3
-     1 0.4
-     */
+    Jpeg jpeg("mandelBrot.ppm");
+  
     
-          
-    Huffman huff;
+    int var = 5;
     
-    huff.compress(str);
+    int * arr = new int [var];
+    arr[2] = 5;
+    std::cout << "hold" << arr[2];
+    
     return 0;
 }

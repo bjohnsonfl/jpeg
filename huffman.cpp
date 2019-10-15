@@ -210,7 +210,7 @@ void Huffman::encodeString(){
         uncoded >> token;
         if(token.size() == 0 ) done = true;
         else{
-            symbol = std::stoi(token);
+            symbol = std::stoi(token);  
             encoded << dictionary[symbol] << " ";
             token.clear(); //clear so we can eventually set done
         }
