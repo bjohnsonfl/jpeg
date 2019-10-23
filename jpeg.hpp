@@ -15,6 +15,7 @@
 #include <stdio.h>
 #include <string>
 
+
 #include "huffman.hpp"
 
 
@@ -30,9 +31,9 @@
  
  for each block, quantize
  
- for each block use entropy encoding (use run length encoding optional but desired)
+ create a huffman tree for ac luminance, ac Yc + Yr, dc luminance, and dc Yc + Yr
  
- for each block create a huffman tree and encode the block with said tree
+ for each block use entropy encoding (use run length encoding optional but desired), create a zigzag pattern, encode using huffman trees created above
  
  for each block, populate the new jpeg file
  
@@ -41,20 +42,24 @@
  create a method to view the binary of a jpeg file for debugging
  
  */
+//sequential 
+//non interchange
+//Abbreviated format for table-specification data 4.9.3
 
+class DCT;
 class Jpeg {
     
 private:
     std::string sourceImage;
     //in ppm images, the first line says the type, the second line says height and width, the third line says the color size, fourth line starts data
-    int width;
-    int height;
-    
+   
     std::ifstream srcImg;
     
-    int *** colors; //3 channels for rgb/YCbCr x height x width
-    
-    
+protected:
+    int width;
+    int height;
+    double *** colors; //3 channels for rgb/YCbCr x height x width
+
 public:
     Jpeg();
     Jpeg(std::string img) {
@@ -64,9 +69,20 @@ public:
     
     void generateJpeg(std::string img);
     void parseDimensions();
-    void parseColors(); //extracts rgb data from the file and converts them to YCbCr and stores them into colors array
-    void rgbToYCbCr (int r, int g, int b, int YcBcR []);
+    //extracts rgb data from the file and converts them to YCbCr and stores them into colors array
+    void parseColors();
+    void rgbToYCbCr ( double YcBcR []);
+    //iterate over nxn blocks, call dct, and quantize
+    void divideIntoBlocks();
+    //creates 4 huffman trees to eventually encode each block
+    void createHuffmanTrees();
+    
+    
+    friend class DCT;
+    
 };
+
+
 
 
 #endif /* jpeg_hpp */
