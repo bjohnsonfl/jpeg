@@ -43,13 +43,24 @@ void DCT::fdct(int xPix, int yPix, int chan, double *** colors){
     for (int v = 0; v < 8; v++){
         for (int u = 0; u < 8; u++){
             fdctFunc(u, v, Suv, colors);
-            
-        
+        }
+    }
+    printBlock(Suv);
+    
+    //Store Suv values back into colors
+    for (int v = 0; v < 8; v++){
+        for (int u = 0; u < 8; u++){
+            colors[channel][v][u] = Suv[v][u];
         }
     }
     
     
-    printBlock(Suv);
+    
+    //Now compute quantization values
+    printBlock(colors);
+    quantize(colors);
+    
+    printBlock(colors);
 }
 
 
@@ -97,6 +108,22 @@ void DCT::levelShift(double *** colors){
 void DCT::quantize(double ***colors)
 {
     
+    //luminance channel (0) has a different quantization table than chromance channels do (1 and 2)
+    //I didnt want a if statment 64 times, so I copied the code in an ugly way
+    if(channel == 0){
+        for (int y = i; y < n; y++){
+            for(int x = j; x < m; x++){
+                colors[channel][y][x] = std::round(colors[channel][y][x] / quantLumin[y][x]);
+            }
+        }
+    }
+    else {
+        for (int y = i; y < n; y++){
+            for(int x = j; x < m; x++){
+               colors[channel][y][x] = std::round(colors[channel][y][x] / quantChrom[y][x]);
+            }
+        }
+    }
     
 }
 
