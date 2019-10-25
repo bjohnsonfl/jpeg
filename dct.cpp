@@ -7,7 +7,7 @@
 //
 
 #include "dct.hpp"
-
+#include <iomanip>
 
 
 
@@ -36,20 +36,20 @@ void DCT::fdct(int xPix, int yPix, int chan, double *** colors){
     double Suv [8][8];
     
     
-    fdctFunc(0, 0, Suv, colors);
+    //fdctFunc(0, 0, Suv, colors);
     
-    printBlock(Suv);
+   // printBlock(Suv);
     
     for (int v = 0; v < 8; v++){
         for (int u = 0; u < 8; u++){
-            
+            fdctFunc(u, v, Suv, colors);
             
         
         }
     }
     
     
-    
+    printBlock(Suv);
 }
 
 
@@ -94,6 +94,11 @@ void DCT::levelShift(double *** colors){
     }
 }
 
+void DCT::quantize(double ***colors)
+{
+    
+    
+}
 
 
 
@@ -110,7 +115,7 @@ void DCT::printBlock(double ***colors){
 
 //DEBUG
 void DCT::printBlock(double colors [8][8]){
-    std::cout << "\n";
+    std::cout <<std::setprecision(4) <<"\n";
     for (int y = i; y < n; y++){
         for(int x = j; x < m; x++){
             std::cout << colors[y][x] << " ";
