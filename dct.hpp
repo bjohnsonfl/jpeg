@@ -21,6 +21,8 @@
 #define Cuv 1 / pow(2, 0.5)
 
 
+
+
 //DCT is a friend class of class Jpeg. the dct is calculated on Jpeg color 3-d array for each channel.
 class DCT {
     
@@ -50,6 +52,9 @@ public:
     }
     void fdct(int x, int y, int chan, double *** colors);
     
+    void fdctFunc(int u, int v, double Suv[8][8],  double *** colors);
+    
+    
     
     //called from fdct to center all pixel values between -128 and 127
     void levelShift(double *** colors);
@@ -58,6 +63,7 @@ public:
     
     
     void printBlock(double *** colors);  //for debugging purposes
+    void printBlock(double colors [8][8]);
 };
 
 
