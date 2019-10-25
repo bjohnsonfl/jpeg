@@ -16,7 +16,7 @@ void Jpeg::generateJpeg(std::string img){
     srcImg.open(sourceImage); //for now no error checking will be conducted
     parseDimensions();
     parseColors();
-    
+    divideIntoBlocks();
     
     
     
@@ -116,6 +116,8 @@ void Jpeg::divideIntoBlocks(){
         }
     }
     
+    DCT obj;
+    obj.fdct(0, 0, 0, *this);
 }
 
 
